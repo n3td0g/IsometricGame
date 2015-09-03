@@ -11,12 +11,10 @@ namespace Assets.Scripts.IsometricTools
         public Vector3 Position = Vector3.zero;
         public Vector3 Point = Vector3.zero;
         public Vector3 Size = Vector3.one;
-        public bool ShowLines = true;
         
         [HideInInspector]
         public HashSet<IsometricSprite> SpritesBehind = new HashSet<IsometricSprite>();
         public static readonly List<IsometricSprite> Sprites = new List<IsometricSprite>();
-        private static bool ShowLinesInEditor = true;
 
         private Vector3 _size = Vector3.one;
         private Vector3 _position = Vector3.zero;
@@ -107,7 +105,7 @@ namespace Assets.Scripts.IsometricTools
             transform.hasChanged = false;
         }
 
-        private static float FindMinValues(float x, float y)
+        public static float FindMinValues(float x, float y)
         {
             return Math.Abs(x) < Math.Abs(y) ? x : y;
         }
@@ -160,11 +158,6 @@ namespace Assets.Scripts.IsometricTools
         // Update is called once per frame
         void Update()
         {
-            if (ShowLines != ShowLinesInEditor)
-                if (Selection.Contains(gameObject))
-                    ShowLinesInEditor = ShowLines;
-                else
-                    ShowLines = ShowLinesInEditor;
             bool needSort = false;
             if (transform.hasChanged)
             {
@@ -215,7 +208,8 @@ namespace Assets.Scripts.IsometricTools
         void OnDrawGizmos()
         {
             bool selected = Selection.Contains(gameObject);
-            if(!ShowLinesInEditor && !selected)
+            var isometricGrid = FindObjectOfType<IsometricGrid>();
+            if (isometricGrid != null && !isometricGrid.ShowSpritesLines && !selected)
                 return;
 
             var oldColor = Gizmos.color;

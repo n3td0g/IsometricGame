@@ -8,6 +8,7 @@ namespace Assets.Scripts.IsometricTools
         // Use this for initialization
         public float GridStep = 1;
         public bool ShowGrid = true;
+        public bool ShowSpritesLines = true;
         public static Vector2 IsoTo2D(Vector2 point)
         {
             return IsoTo2D(point.x, point.y);
